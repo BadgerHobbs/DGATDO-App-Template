@@ -1,11 +1,13 @@
 name: Deploy to DigitalOcean
 on:
   workflow_dispatch:
-  push:
+  workflow_run:
+    workflows: ["Build and Push Docker Image"]
+    types:
+      - completed
 
 jobs:
   deploy_to_digitalocean:
-    needs: build_and_push_docker_image
     runs-on: ubuntu-latest
 
     env:
