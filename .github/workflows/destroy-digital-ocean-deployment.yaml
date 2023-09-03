@@ -1,11 +1,9 @@
-name: Deploy to DigitalOcean
+name: Destroy Digital Ocean Deployment
 on:
   workflow_dispatch:
-  push:
 
 jobs:
-  deploy_to_digitalocean:
-    needs: build_and_push_docker_image
+  destroy_digital_ocean_deployment:
     runs-on: ubuntu-latest
 
     env:
@@ -27,10 +25,6 @@ jobs:
       - name: Initialize Terraform
         run: terraform -chdir="./Terraform" init
 
-      - name: Run Terraform Plan
-        run: |
-          terraform -chdir="./Terraform" plan
-
       - name: Deploy to DigitalOcean
         run: |
-          terraform -chdir="./Terraform" apply -auto-approve
+          terraform -chdir="./Terraform" destroy -auto-approve
