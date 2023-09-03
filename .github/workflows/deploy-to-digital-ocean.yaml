@@ -1,0 +1,35 @@
+name: Deploy to DigitalOcean
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  deploy_to_digitalocean:
+    runs-on: ubuntu-latest
+
+    env:
+      TF_VAR_do_access_token: ${{ secrets.DO_ACCESS_TOKEN }}
+      TF_VAR_ghcr_username: ${{ secrets.GHCR_USERNAME }}
+      TF_VAR_ghcr_access_token: ${{ secrets.GHCR_ACCESS_TOKEN }}
+      TF_VAR_docker_image: dgatdo-application:latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Generate SSH key
+        run: ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa
+
+      - name: Configure Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Initialize Terraform
+        run: terraform -chdir="./Terraform" init
+
+      - name: Run Terraform Plan
+        run: |
+          terraform -chdir="./Terraform" plan
+
+      - name: Deploy to DigitalOcean
+        run: |
+          terraform -chdir="./Terraform" apply -auto-approve
