@@ -20,6 +20,16 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
 
+      - name: Download Encrypted Artifact & Decrypt Artifact
+        uses: badgerhobbs/terraform-state@v1
+        with:
+          encryption_key: ${{ secrets.encryption_key }}
+          operation: download
+          location: artifact
+          directory: ./Terraform
+          github_token: ${{ secrets.gh_access_token }}
+        continue-on-error: true
+
       - name: Generate SSH key
         run: ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa
 
@@ -36,3 +46,12 @@ jobs:
       - name: Deploy to DigitalOcean
         run: |
           terraform -chdir="./Terraform" apply -auto-approve
+
+      - name: Encrypt Artifact & Upload Encrypted Artifact
+        uses: badgerhobbs/terraform-state@v1
+        with:
+          encryption_key: ${{ secrets.encryption_key }}
+          operation: upload
+          location: artifact
+          directory: ./Terraform
+          github_token: ${{ secrets.gh_access_token }}

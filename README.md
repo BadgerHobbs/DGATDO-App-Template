@@ -1,20 +1,20 @@
 # DGATDO-App-Template
 
+[![Build and Push Docker Image](https://github.com/BadgerHobbs/DGATDO-App-Template/actions/workflows/build-and-push-docker-image.yaml/badge.svg)](https://github.com/BadgerHobbs/DGATDO-App-Template/actions/workflows/build-and-push-docker-image.yaml) [![Deploy to DigitalOcean](https://github.com/BadgerHobbs/DGATDO-App-Template/actions/workflows/deploy-to-digital-ocean.yaml/badge.svg)](https://github.com/BadgerHobbs/DGATDO-App-Template/actions/workflows/deploy-to-digital-ocean.yaml) [![Destroy Digital Ocean Deployment](https://github.com/BadgerHobbs/DGATDO-App-Template/actions/workflows/deploy-to-digital-ocean.yaml/badge.svg)](https://github.com/BadgerHobbs/DGATDO-App-Template/actions/workflows/destroy-digital-ocean-deployment.yaml)
+
 A demo/template repository for building and deploying an application using Docker, GitHub Actions, Terraform, and DigitalOcean. Get started quickly with this template and leverage the power of these technologies to streamline your application deployment process.
 
-[![Build and Push Docker Image](https://github.com/BadgerHobbs/DGATDO-App-Template/actions/workflows/build-and-push-docker-image.yaml/badge.svg)](https://github.com/BadgerHobbs/DGATDO-App-Template/actions/workflows/build-and-push-docker-image.yaml) [![Deploy to DigitalOcean](https://github.com/BadgerHobbs/DGATDO-App-Template/actions/workflows/deploy-to-digital-ocean.yaml/badge.svg)](https://github.com/BadgerHobbs/DGATDO-App-Template/actions/workflows/deploy-to-digital-ocean.yaml)
+## Automatic (CI/CD) Deployment
 
-# Automatic (CI/CD) Deployment
+### Create GitHub Access Token
 
-## Create GitHub Access Token
+Go to GitHub and create a classic personal access token with both repository and package read/write permissions. These permissions are required so that the `terraform-state` GitHub Action can download the latest Terraform state file artifacts, as well as so the Docker image can be pushed to the GitHub Container Registry (GHCR).
 
-Go to GitHub and create a personal access token with repository read/write permissions, as documented [here](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry).
-
-## Create DigitalOcean Access Token
+### Create DigitalOcean Access Token
 
 Go to DigitalOcean and create a new access token, as documented [here](https://docs.digitalocean.com/reference/api/create-personal-access-token/).
 
-## Set GitHub Action Secrets
+### Set GitHub Action Secrets
 
 Go to GitHub and set the following secrets to be used within the various GitHub Actions for building and deploying. You can find documentation on setting secrets [here](https://docs.github.com/en/actions/security-guides/encrypted-secrets).
 
@@ -22,6 +22,8 @@ Go to GitHub and set the following secrets to be used within the various GitHub 
 DO_ACCESS_TOKEN
 GHCR_USERNAME
 GHCR_ACCESS_TOKEN
+GH_ACCESS_TOKEN
+ENCRYPTION_KEY
 ```
 
 ## Manual Deployment
@@ -91,3 +93,7 @@ Run the following command to destroy your previously deployed application using 
 ```bash
 terraform -chdir="./Terraform" destroy -var-file="local.tfvars"
 ```
+
+## License
+
+The scripts and documentation in this project are released under the [MIT License](LICENSE).
