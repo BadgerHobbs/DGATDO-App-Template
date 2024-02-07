@@ -2,6 +2,7 @@
 # DigitalOcean access token.
 variable "do_access_token" {
     type = string
+    sensitive = true
 }
 
 # ghcr.io username.
@@ -12,6 +13,7 @@ variable "ghcr_username" {
 # ghcr.io access token (password).
 variable "ghcr_access_token" {
     type = string
+    sensitive = true
 }
 
 # Docker image
